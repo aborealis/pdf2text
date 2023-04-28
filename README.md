@@ -7,7 +7,7 @@ This is a command-line tool that converts multi-page PDF files to a text using t
 To use `pytesseract` package (for converting images to text), please install OCR in your system:
 
 * For OCR core installation on Ubuntu/Debian, please run: `sudo apt-get install tesseract-ocr`
-* [Optional] To install additional language-specific library to convert PDF files with non-English glyphs, run: `sudo apt-get install tesseract-ocr-<lang>`. For instance, to convert Russian pdf-files, run `sudo apt-get install tesseract-ocr-rus` to recognize cyrillic glyphs.
+* [Optional] To install additional language-specific library to convert PDF files with non-English glyphs, run: `sudo apt-get install tesseract-ocr-[lang]`. For instance, to convert Russian pdf-files, run `sudo apt-get install tesseract-ocr-rus` to recognize cyrillic glyphs.
 
 ## Script Installation
 
@@ -31,33 +31,45 @@ To remove your virtual environment and uninstall the script, simply
 ## Usage
 
 ```
-usage: pdf_to_text.py [-h] [-i INPUT] [-l [LANGUAGE]]
-
-A multi-page PDF-to-text convertor.
+usage: A multi-page PDF-to-text convertor. [-h] -i INPUT [-l LANGUAGE] [-w WORKERS]
 
 optional arguments:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
                         a full path to the PDF-file
-  -l [LANGUAGE], --language [LANGUAGE]
-                        Language of the text, e.g., rus, lat, etc. (default: eng). To convert a PDF from a specific language, please install the OCR language library. For example, run `sudo apt-get install tesseract-ocr-rus` to install the Russian OCR recognition library.
+  -l LANGUAGE, --language LANGUAGE
+                        language of the text, e.g., rus, lat, etc. (default: eng). Use it
+                        to convert a PDF from a language with a specific characters. Please
+                        install the OCR language library first. For example, run 'sudo
+                        apt-get install tesseract-ocr-rus' to install the Russian OCR
+                        recognition library.
+  -w WORKERS, --workers WORKERS
+                        sets number of pages the script will convert at a time. Use it to
+                        accelirate the execution. The number of concurrent pages should not
+                        exceed the number of you cores/CPUs minus one. Leave at least one
+                        core/CPU to handle your OS, while other are busy with conversion.
+
 ```
 
 ## Examples
 
-Convert a PDF file to a text:
+Convert a PDF file with English characters to a text:
 
 ```
-$ python pdf_to_text.py -i path/to/file.pdf
+$ python pdf2text.py -i path/to/file.pdf
 ```
 
-Convert a PDF file in a specific language to text:
+Convert a PDF file with Russian characters to a text (P.S. Don't forget to install a language-specific library, see 'requirements' section):
 
 ```
-$ python pdf_to_text.py -i path/to/file.pdf -l rus
+$ python pdf2text.py -i path/to/file.pdf -l rus
 ```
 
-P.S. Don't forget to install a language-specific library, see 'requirements' section.
+Convert a PDF with 2 pages at a time (assuming I have at least 3 cores/CPUs)
+
+```
+$ python pdf2text.py -i path/to/file.pdf -w 2
+```
 
 ## License
 

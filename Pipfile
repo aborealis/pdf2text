@@ -8,6 +8,7 @@ tqdm = "*"
 pytesseract = "*"
 textract = "*"
 pypdf2 = "*"
+pdf2image = "*"
 
 [dev-packages]
 autopep8 = "*"
